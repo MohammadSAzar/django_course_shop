@@ -32,8 +32,11 @@ def order_create_view(request):
             request.user.first_name = order_obj.first_name
             request.user.last_name = order_obj.last_name
             request.user.save()
-            messages.success(request, 'سفارش شما با موفقیت ثبت شد')
-            order_form = OrderForm()
+            # messages.success(request, 'سفارش شما با موفقیت ثبت شد')
+            # order_form = OrderForm()
+            request.session['order_id'] = order_obj.id
+            return redirect('payment_process')
+
     context = {
         'form': order_form,
     }

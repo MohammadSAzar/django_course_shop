@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'cart',
     'myjalali',
     'orders',
+    'payment',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -183,5 +184,6 @@ ACCount_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
-
+#  payment - ZP
+ZARINPAL_MI = env('DJANGO_ZARINPAL_MI')
 
