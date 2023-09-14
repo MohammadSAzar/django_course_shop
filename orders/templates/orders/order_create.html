@@ -1,0 +1,118 @@
+{% extends '_base.html' %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load jalali_tags %}
+{% load farsi_writing_tags %}
+{% load humanize %}
+{% load math_functions %}
+
+{% block title %}ثبت سفارش{% endblock %}
+
+{% block content %}
+     <!-- Main Content Wrapper Start -->
+    <div class="main-content-wrapper">
+        <div class="page-content-inner">
+            <div class="container">
+                <div class="row pt--50 pt-md--40 pt-sm--20"></div>
+                <div class="row pb--80 pb-md--60 pb-sm--40">
+                    <!-- Checkout Area Start -->
+                    <div class="col-lg-6">
+                        <div class="checkout-title mt--10">
+                            <h2>جزئیات سفارش</h2>
+                        </div>
+                        <div class="checkout-form">
+                            <form action="" method="POST" class="form form--checkout" novalidate>
+                                {% csrf_token %}
+                                {% if form.errors %}
+                                    {% for field in form %}
+                                            {% for error in field.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        {% endfor %}
+                                {% endif %}
+                                <div class="form-row mb--20">
+                                    <div class="form__group col-md-6 mb-sm--30">
+                                        <label for="id_first_name" class="form__label form__label--2">نام</label>
+                                        {% render_field form.first_name class="form__input form__input--2" %}
+                                    </div>
+                                    <div class="form__group col-md-6">
+                                        <label for="id_last_name" class="form__label form__label--2">نام خانوادگی</label>
+                                        {% render_field form.last_name class="form__input form__input--2" %}
+                                    </div>
+                                </div>
+                                <div class="form-row mb--20">
+                                    <div class="form__group col-12">
+                                        <label for="id_phone" class="form__label form__label--2">شماره همراه</label>
+                                        {% render_field form.phone class="form__input form__input--2" %}
+                                    </div>
+                                </div>
+                                <div class="form-row mb--20">
+                                    <div class="form__group col-12">
+                                        <label for="id_address" class="form__label form__label--2">آدرس</label>
+                                        {% render_field form.address class="form__input form__input--2" %}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form__group col-12">
+                                        <label for="id_notes" class="form__label form__label--2">یادداشت</label>
+                                        {% render_field form.notes class="form__input form__input--2" %}
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn">ارسال</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-5 offset-xl-1 col-lg-6 mt-md--40">
+                        <div class="order-details">
+                            <div class="checkout-title mt--10">
+                                <h2>سفارش شما</h2>
+                            </div>
+                            <div class="table-content table-responsive mb--30">
+                                <table class="table order-table order-table-2">
+                                    <thead>
+                                        <tr>
+                                            <th>محصول</th>
+                                            <th class="text-right">قیمت نهایی</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in cart %}
+                                            <tr>
+                                                <th>{{ item.product_obj.title }}
+                                                    <strong><span>&#10005;</span>{{ item.number|intcomma:False|farsi_number }}</strong>
+                                                </th>
+                                                <td class="text-right">{{ item.product_obj.price|mul_func:item.number|intcomma:False|farsi_number }} {% trans '$' %}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="cart-subtotal">
+                                            <th>مجموع</th>
+                                            <td class="text-right">{{ cart.total_price|intcomma:False|farsi_number }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="checkout-payment">
+                                <h2 class="py-5">روش پرداخت</h2>
+                                <form action="#" class="payment-form">
+                                    <div class="payment-group mb--10">
+                                        <div class="payment-radio">
+                                            <input type="radio" value="bank" name="payment-method" id="bank" checked>
+                                            <label class="payment-label" for="cheque">درگاه آنلاین زرین پال</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Checkout Area End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content Wrapper Start -->
+{% endblock %}
